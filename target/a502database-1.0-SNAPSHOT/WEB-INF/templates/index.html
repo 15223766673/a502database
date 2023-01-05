@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"
+xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/static/js/jquery-3.6.2/jquery-3.6.2.js}"></script>
+    <script th:src="@{/static/js/axios/axios.min.js}"></script>
+</head>
+<body>
+hello
+<a th:href="@{/hello}">链接</a>
+
+
+<hr>
+<form th:action="@{/pojo/user}" method="post">
+    <input type="text" name="id">
+    <input type="text" name="name">
+    <input type="submit" value="提交">
+</form>
+
+<hr>
+<a th:href="@{/testServletAPI2}">/testServletAPI2</a>
+<a th:href="@{/testModelAndView}">/testModelAndView</a>
+<a th:href="@{/testModel}">/testModel</a>
+<a th:href="@{/testMap}">/testMap</a>
+<a th:href="@{/testModelMap}">/testModelMap</a>
+<a th:href="@{/testSession}">/testSession</a>
+<a th:href="@{/testApplication}">/testApplication</a>
+
+<hr>
+<form th:action="@{/hidemethod}" method="post">
+    <input type="hidden" name="_method" value="put">
+    <input type="submit" value="提交">
+</form>
+<button id="btn">测试axios</button>
+<button id="btn2">测试ResponseBody</button>
+<a th:href="@{/testResponseBody}">请求responseBody的超链接</a>
+<hr>
+<a th:href="@{/testdownload/396_raw.mp4}">测试下载</a>
+<button id="btn3">ajax下载</button>
+<form th:action="@{/testupload}" enctype="multipart/form-data" method="post" target="tg">
+    <input type="file" name="file">
+    <input type="submit" >
+    <button id="btn4">ajax上传</button>
+</form>
+<iframe name="tg" id="tg" style="display: none;"></iframe>
+<hr>
+<a th:href="@{/error}">测试错误</a>
+<hr>
+<a th:href="@{/emp}">查找所有的emp</a>
+<a th:href="@{/emp/page/1}">查找第一页的emp</a>
+</body>
+<script th:src="@{/static/js/myjs.js}">
+</script>
+</html>
