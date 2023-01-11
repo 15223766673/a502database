@@ -30,6 +30,7 @@ public class PageController {
     @ResponseBody
     public Resp loginUser(@RequestBody Map<String,String> map, HttpServletRequest request)
     {
+        System.out.println(map.toString());
         String tokenString = userService.queryUserByUserNameAndPassword(map.get("username"),map.get("password"));
         Resp<Object> resp = new Resp<>();
         Map<String,Object> resultMap = new HashMap<>();
@@ -46,5 +47,6 @@ public class PageController {
         }
         return resp;
     }
+
 
 }

@@ -6,51 +6,211 @@ xmlns:th="http://www.thymeleaf.org">
     <title>Title</title>
     <script th:src="@{/static/js/jquery-3.6.2/jquery-3.6.2.js}"></script>
     <script th:src="@{/static/js/axios/axios.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <style>
+        html,body{
+            margin: 0px;
+            height: 100%;
+        }
+        a {
+            text-decoration: none; /* 去除默认的下划线 */
+            outline: none;	/* 去除旧版浏览器的点击后的外虚线框 */
+            color: #000;	/* 去除默认的颜色和点击后变化的颜色 */
+        }
+
+        .topleft ul{
+            list-style:none;    //去掉标签默认的左边符号
+        display:flex;
+            flex-wrap:wrap;
+            margin: 39px -50px;
+        }
+        .topleft li{
+            list-style-type:none;    //去掉标签默认的左边符号
+        text-align: center;
+            display: inline-block;
+            padding-left: 50px;
+        }
+
+        .top{
+            width: 100%;
+            height: 100px;
+            display: flex;
+        }
+        .topleft{
+            flex: 7;
+            background-color: #8a6d3b;
+        }
+        .topright{
+            flex: 3;
+            background-color: #0090ff;
+            text-align: right;
+            vertical-align: middle;
+            line-height: 100px;
+        }
+        .body{
+            width: 100%;
+            height: calc(100% - 200px);
+            display: flex;
+        }
+        .left{
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            background-color: #4cae4c;
+            border-right: black 1px;
+        }
+        .left .serach{
+            flex: 1;
+        }
+        .input-group{
+            display: flex;
+        }
+        .input-group .serachinput{
+            flex: 8;
+        }
+        .input-group .serachbutton{
+            flex: 2;
+        }
+        .input-group input{
+            width: 100%;
+            height: 50px;
+            font-size: 20px;
+            border: solid 1px;
+            vertical-align: middle;
+        }
+        .input-group button{
+            height: 50px;
+            width: 100%;
+            margin: 0px;
+
+        }
+        .left .serachresult{
+            flex: 19;
+        }
+        .serachresult ul{
+            list-style:none;
+        }
+        .serachresult ul li{
+            list-style-type:none;
+            margin-top: 20px;
+        }
+        .right{
+            flex: 13;
+            background-color: #1b6d85;
+        }
+        .footer{
+            width: 100%;
+            height: 100px;
+            background-color: #13a1fc;
+        }
+        .footer .copyright{
+            margin: 0px auto;
+            width: 200px;
+            padding-top: 30px;
+            height: 50px;
+        }
+    </style>
 </head>
 <body>
-hello
-<a th:href="@{/hello}">链接</a>
+<div class="top">
+    <div class="topleft">
+        <ul>
+            <li>首页</li>
+            <li>友链</li>
+        </ul>
+    </div>
+    <div class="topright">
+        <span>xxx管理员</span>
+    </div>
+</div>
+<div class="body">
+    <div class="left">
+        <div class="serach">
+            <div class="input-group">
+                <div class="serachinput">
+                    <input id="myserach" type="text" class="form-control" placeholder="站点信息" aria-describedby="basic-addon1">
+                </div>
+                <div class="serachbutton">
+                    <button id="btn" type="button" class="btn btn-default" >搜索</button>
+                </div>
+            </div>
+
+        </div>
+        <div id="serachresult" class="serachresult">
+            <div id="stationsUl">
 
 
-<hr>
-<form th:action="@{/pojo/user}" method="post">
-    <input type="text" name="id">
-    <input type="text" name="name">
-    <input type="submit" value="提交">
-</form>
+            </div>
+        </div>
+    </div>
+    <div class="right">
 
-<hr>
-<a th:href="@{/testServletAPI2}">/testServletAPI2</a>
-<a th:href="@{/testModelAndView}">/testModelAndView</a>
-<a th:href="@{/testModel}">/testModel</a>
-<a th:href="@{/testMap}">/testMap</a>
-<a th:href="@{/testModelMap}">/testModelMap</a>
-<a th:href="@{/testSession}">/testSession</a>
-<a th:href="@{/testApplication}">/testApplication</a>
-
-<hr>
-<form th:action="@{/hidemethod}" method="post">
-    <input type="hidden" name="_method" value="put">
-    <input type="submit" value="提交">
-</form>
-<button id="btn">测试axios</button>
-<button id="btn2">测试ResponseBody</button>
-<a th:href="@{/testResponseBody}">请求responseBody的超链接</a>
-<hr>
-<a th:href="@{/testdownload/396_raw.mp4}">测试下载</a>
-<button id="btn3">ajax下载</button>
-<form th:action="@{/testupload}" enctype="multipart/form-data" method="post" target="tg">
-    <input type="file" name="file">
-    <input type="submit" >
-    <button id="btn4">ajax上传</button>
-</form>
-<iframe name="tg" id="tg" style="display: none;"></iframe>
-<hr>
-<a th:href="@{/error}">测试错误</a>
-<hr>
-<a th:href="@{/emp}">查找所有的emp</a>
-<a th:href="@{/emp/page/1}">查找第一页的emp</a>
+    </div>
+</div>
+<div class="footer">
+    <div class="copyright">
+        CopyRight@A502-2023
+    </div>
+</div>
 </body>
-<script th:src="@{/static/js/myjs.js}">
+<script type="text/javascript" th:src="@{/static/js/loginJs.js}"></script>
+<script type="text/javascript">
+ $(function ()
+ {
+     //查询
+     //为搜索添加发送请求的功能
+     $('#btn').on('click',function (event)
+     {
+         console.log($('#myserach').val());
+         var myinfo = $('#myserach').val();
+         axios(
+             {
+                 header:{
+                     'Content-Type': 'application/json'
+                 },
+                 method:'POST',
+                 url:'/A502database/query/station',
+                 data:{
+                     info:myinfo
+                 }
+
+
+             }).then(function (response) {
+             //取出搜索信息
+             $('#serachresult').innerHTML='';
+             console.log(response.data);
+
+             //插入搜索结果
+             for(var i=0;i<response.data.rtnMap.stations.length&&i<10;i++)
+             {
+                 var serachNode = $("<div><a href=''>"+response.data.rtnMap.stations[i].hydrometricStationName+"</a></div>");
+                 $('#stationsUl').append(serachNode);
+             }
+             //为搜索结果添加点击事件
+             $('#stationsUl a').on('click',function (event) {
+                 event.preventDefault();
+                 axios(
+                     {
+                         header: {
+                             'Content-Type': 'application/json',
+                             'token': localStorage.getItem("token")
+                         },
+                         method: 'POST',
+                         url: '/A502database/queryStationInfo/'+this.innerText,
+                         data: {
+
+                         }
+                     }).then(function (response) {
+                         console.log(response.data);
+                         //画右边站点信息界面
+                 })
+             })
+                })
+
+             })
+
+
+
+ })
 </script>
 </html>

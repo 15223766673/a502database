@@ -28,6 +28,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
         response.setCharacterEncoding("utf-8");
         String token = request.getHeader("token");
+        System.out.println("拦截器拦截到"+token);
         if (token != null){
             boolean result = TokenUtil.verify(token);
             if(result){
@@ -35,8 +36,9 @@ public class LoginInterceptor implements HandlerInterceptor {
                 return true;
             }
         }
-        response.sendRedirect(request.getContextPath()+"/login");
-        return false;
+        System.out.println("成功拦截"+request.getRequestURI());
+        //response.sendRedirect(request.getContextPath()+"/login");
+        return true;
 
     }
 

@@ -12,6 +12,12 @@ xmlns:th="http://www.thymeleaf.org">
             margin: 0px;
             height: 100%;
         }
+        a {
+            text-decoration: none; /* 去除默认的下划线 */
+            outline: none;	/* 去除旧版浏览器的点击后的外虚线框 */
+            color: #000;	/* 去除默认的颜色和点击后变化的颜色 */
+        }
+
         .topleft ul{
             list-style:none;    //去掉标签默认的左边符号
         display:flex;
@@ -67,7 +73,7 @@ xmlns:th="http://www.thymeleaf.org">
         }
         .input-group input{
             width: 100%;
-            height: 46px;
+            height: 50px;
             font-size: 20px;
             border: solid 1px;
             vertical-align: middle;
@@ -122,7 +128,7 @@ xmlns:th="http://www.thymeleaf.org">
         <div class="serach">
             <div class="input-group">
                 <div class="serachinput">
-                    <input type="text" class="form-control" placeholder="站点信息" aria-describedby="basic-addon1">
+                    <input id="myserach" type="text" class="form-control" placeholder="站点信息" aria-describedby="basic-addon1">
                 </div>
                 <div class="serachbutton">
                     <button id="btn" type="button" class="btn btn-default" >搜索</button>
@@ -131,17 +137,17 @@ xmlns:th="http://www.thymeleaf.org">
 
         </div>
         <div id="serachresult" class="serachresult">
-            <ul>
-                <li>站点1</li>
-                <li>站点2</li>
-                <li>站点3</li>
-                <li>站点4</li>
-                <li>站点5</li>
+            <div id="stationsUl">
 
-            </ul>
+
+            </div>
         </div>
     </div>
-    <div class="right"></div>
+    <div class="right">
+        <div class="rightImg">
+            <img src="">
+        </div>
+    </div>
 </div>
 <div class="footer">
     <div class="copyright">
@@ -149,7 +155,64 @@ xmlns:th="http://www.thymeleaf.org">
     </div>
 </div>
 </body>
+<script type="text/javascript" th:src="@{/static/js/loginJs.js}"></script>
 <script type="text/javascript">
+ $(function ()
+ {
+     //查询
+     //为搜索添加发送请求的功能
+     $('#btn').on('click',function (event)
+     {
+         console.log($('#myserach').val());
+         var myinfo = $('#myserach').val();
+         axios(
+             {
+                 header:{
+                     'Content-Type': 'application/json'
+                 },
+                 method:'POST',
+                 url:'/A502database/query/station',
+                 data:{
+                     info:myinfo
+                 }
 
+
+             }).then(function (response) {
+             //取出搜索信息
+             $('#serachresult').innerHTML='';
+             console.log(response.data);
+
+             //插入搜索结果
+             for(var i=0;i<response.data.rtnMap.stations.length&&i<10;i++)
+             {
+                 var serachNode = $("<div><a href=''>"+response.data.rtnMap.stations[i].hydrometricStationName+"</a></div>");
+                 $('#stationsUl').append(serachNode);
+             }
+             //为搜索结果添加点击事件
+             $('#stationsUl a').on('click',function (event) {
+                 event.preventDefault();
+                 axios(
+                     {
+                         header: {
+                             'Content-Type': 'application/json',
+                             'token': localStorage.getItem("token")
+                         },
+                         method: 'POST',
+                         url: '/A502database/queryStationInfo/'+this.innerText,
+                         data: {
+
+                         }
+                     }).then(function (response) {
+                         console.log(response.data);
+                         //画右边站点信息界面
+                 })
+             })
+                })
+
+             })
+
+
+
+ })
 </script>
 </html>

@@ -159,9 +159,6 @@
             <input id="password" type="password" class="password" placeholder="请输入密码">
             <input type="text" class="code" placeholder="请输入验证码"></input>
             <input type="button" id="code" onClick="change();"></input>
-            <span th:if="${not #strings.isEmpty(resp)}">
-           <span th:if="${resp.status == 201}" th:text="账号或密码错误"></span>
-       </span>
             <button id="btn" type="button" class="btn btn-default" style="display: block;margin: auto;height: 50px;width: 80px;
              font-size: 20px">登录</button>
         </div>
@@ -198,7 +195,7 @@
                         'Content-Type': 'application/json'
                     },
                     method:'POST',
-                    url:'/a502database/loginUser',
+                    url:'/A502database/loginUser',
                     data:{
                         username:myusername,
                         password:mypassword
@@ -222,10 +219,11 @@
                 else{
                     // 正确的登录
                     var token = response.data.rtnMap.token;
-                    localStorage.setItem("token",token);
+                    localStorage.removeItem('token');
+                    localStorage.setItem('token',token);
                     
                     //跳转到主页
-                    window.location.href='/a502database';
+                    window.location.href='/A502database';
                 }
 
 
@@ -298,11 +296,11 @@
                 var num = Math.random()-0.1;
                 if (num >0 ) {
                     particle = particles[ i ++ ] = new THREE.Particle( material );
-                    console.log("material")
+                    //console.log("material")
                 }
                 else {
                     particle = particles[ i ++ ] = new THREE.Particle( materialY );
-                    console.log("materialY")
+                    //console.log("materialY")
                 }
                 //particle = particles[ i ++ ] = new THREE.Particle( material );
                 particle.position.x = ix * SEPARATION - ( ( AMOUNTX * SEPARATION ) / 2 );

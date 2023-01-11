@@ -78,6 +78,15 @@ public class TokenUtil {
             return null;
         }
     }
+    public static String getPassword(String token){
+        try {
+            DecodedJWT jwt = JWT.decode(token);
+            return jwt.getClaim("pwd").asString();
+        } catch (JWTDecodeException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 
 

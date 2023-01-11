@@ -24,8 +24,6 @@ public class UserServiceImpl implements UserService {
         //如果密码相等则返回User的字符串
         if(user!= null&&user.getPassword().equals(password))
         {
-            ;
-
             return TokenUtil.sign(user.getUserName(),user.getPassword());
         }
         else{
