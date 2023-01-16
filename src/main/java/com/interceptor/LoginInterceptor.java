@@ -37,7 +37,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             }
         }
         System.out.println("成功拦截"+request.getRequestURI());
-        //response.sendRedirect(request.getContextPath()+"/login");
+        response.sendRedirect(request.getContextPath()+"/login");
         return true;
 
     }

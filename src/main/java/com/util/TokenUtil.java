@@ -19,6 +19,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 @Component
 public class TokenUtil {
 
+    //过期时间
     private static final long EXPIRE_TIME = 24* 60 * 60 * 1000;
     private static final String TOKEN_SECRET = "a502666";
     /**

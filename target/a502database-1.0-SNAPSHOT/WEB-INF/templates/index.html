@@ -96,7 +96,7 @@ xmlns:th="http://www.thymeleaf.org">
         }
         .right{
             flex: 13;
-            background-color: #1b6d85;
+            /*background-color: #1b6d85;*/
         }
         .footer{
             width: 100%;
@@ -108,6 +108,35 @@ xmlns:th="http://www.thymeleaf.org">
             width: 200px;
             padding-top: 30px;
             height: 50px;
+        }
+        .rightImg{
+            height: 100%;
+        }
+        .rightImg img{
+            width: 100%;
+            height: 100%;
+        }
+        .stationinfopage{
+            margin: 30px 50px;
+        }
+        .stationinfopage span{
+            margin-top: 10px;
+            display: block;
+        }
+        .stationinfopage a{
+            display: block;
+        }
+        .righttable h3{
+            text-align: center;
+        }
+        .righttable ul{
+            text-align: center;
+        }
+        .righttable li{
+            display: inline-block;
+        }
+        .righttable li input{
+            width: 40px;
         }
     </style>
 </head>
@@ -144,6 +173,11 @@ xmlns:th="http://www.thymeleaf.org">
         </div>
     </div>
     <div class="right">
+        <div class="rightImg">
+            <img th:src="@{/static/file/img/rightdefault.png}">
+        </div>
+
+
 
     </div>
 </div>
@@ -155,6 +189,120 @@ xmlns:th="http://www.thymeleaf.org">
 </body>
 <script type="text/javascript" th:src="@{/static/js/loginJs.js}"></script>
 <script type="text/javascript">
+    function drawtable(response) {
+
+                console.log(response);
+                if(response.data.rtnMap.dataType == 'monthly')
+                {
+                    $('.right').empty();
+                    var righttable = $('<div class="righttable">\n' +
+                        '            <h3>表格数据</h3>\n' +
+                        '            <table class="table table-bordered table-striped" id="mytable">' +
+                        '</table></div>');
+                    $('.right').append(righttable);
+                    //添加数据
+                    //表头
+                    var table = $('<thead>\n' +
+                        '                <tr>\n' +
+                        '                    <td>date</td>\n' +
+                        '                    <td>original</td>\n' +
+                        '                    <td>calculated</td>\n' +
+                        '                    <td>flag</td>\n' +
+                        '                </tr>\n' +
+                        '                </thead>' + '<tbody id="mytbody"></tbody>');
+                    $('#mytable').append(table);
+                    //数据
+                    for (var i = 0; i < response.data.rtnMap.stationDatas.length; i++) {
+                        var trow = $('<tr><td>' + response.data.rtnMap.stationDatas[i].monthDate + '</td>' +
+                            '<td>' + response.data.rtnMap.stationDatas[i].original + '</td>' +
+                            '<td>' + response.data.rtnMap.stationDatas[i].calculated + '</td>' +
+                            '<td>' + response.data.rtnMap.stationDatas[i].flag + '</td></tr>');
+                        $('#mytbody').append(trow);
+                    }
+                    //添加页码
+                    var pages = $('<ul>' +
+                        '<li>当前页:' + response.data.rtnMap.currentPage + '</li>' +
+                        '<li>总页数:' + response.data.rtnMap.totalPage + '</li>' +
+                        '<li><input type="text" placeholder="页码" id="pageinput"></li>' +
+                        '<button id="pagebtn">跳转</button>' + '</ul>');
+                    $('.righttable').append(pages);
+                    //为跳转按钮添加功能
+                    $('#pagebtn').on('click',function (event)
+                    {
+                        //判断是否为数字
+                        axios(
+                            {
+                                headers:{
+                                    'Content-Type': 'application/json',
+                                    'token': localStorage.getItem("token")
+                                },
+                                method:'POST',
+                                url:'/A502database/station/'+
+                                    response.data.rtnMap.dataType+
+                                    '/'+response.data.rtnMap.stationId+
+                                    '/'+$('#pageinput').val()
+                            }
+
+                        ).then(function (response)
+                        {
+                            drawtable(response);
+                        })
+                    })
+                }
+                else{
+                    $('.right').empty();
+                    var righttable = $('<div class="righttable">\n' +
+                        '            <h3>表格数据</h3>\n' +
+                        '            <table class="table table-bordered table-striped" id="mytable">' +
+                        '</table></div>');
+                    $('.right').append(righttable);
+                    //添加数据
+                    //表头
+                    var table = $('<thead>\n' +
+                        '                <tr>\n' +
+                        '                    <td>date</td>\n' +
+                        '                    <td>value</td>\n' +
+                        '                </tr>\n' +
+                        '                </thead>' + '<tbody id="mytbody"></tbody>');
+                    $('#mytable').append(table);
+                    //数据
+                    for (var i = 0; i < response.data.rtnMap.stationDatas.length; i++) {
+                        var trow = $('<tr><td>' + response.data.rtnMap.stationDatas[i].dayDate + '</td>' +
+                            '<td>' + response.data.rtnMap.stationDatas[i].value + '</td></tr>');
+                        $('#mytbody').append(trow);
+                    }
+                    //添加页码
+                    var pages = $('<ul>' +
+                        '<li>当前页:' + response.data.rtnMap.currentPage + '</li>' +
+                        '<li>总页数:' + response.data.rtnMap.totalPage + '</li>' +
+                        '<li><input type="text" placeholder="页码" id="pageinput"></li>' +
+                        '<button id="pagebtn">跳转</button>' + '</ul>');
+                    $('.righttable').append(pages);
+                    //为跳转按钮添加功能
+                    $('#pagebtn').on('click',function (event)
+                    {
+                        //判断是否为数字
+                        axios(
+                            {
+                                headers:{
+                                    'Content-Type': 'application/json',
+                                    'token': localStorage.getItem("token")
+                                },
+                                method:'POST',
+                                url:'/A502database/station/'+
+                                    response.data.rtnMap.dataType+
+                                    '/'+response.data.rtnMap.stationId+
+                                    '/'+$('#pageinput').val()
+                            }
+
+                        ).then(function (response)
+                        {
+                            drawtable(response);
+                        })
+                    })
+                }
+
+    }
  $(function ()
  {
      //查询
@@ -165,8 +313,9 @@ xmlns:th="http://www.thymeleaf.org">
          var myinfo = $('#myserach').val();
          axios(
              {
-                 header:{
-                     'Content-Type': 'application/json'
+                 headers:{
+                     'Content-Type': 'application/json',
+                     'token': localStorage.getItem("token")
                  },
                  method:'POST',
                  url:'/A502database/query/station',
@@ -177,7 +326,7 @@ xmlns:th="http://www.thymeleaf.org">
 
              }).then(function (response) {
              //取出搜索信息
-             $('#serachresult').innerHTML='';
+             $('#stationsUl').empty();
              console.log(response.data);
 
              //插入搜索结果
@@ -191,7 +340,7 @@ xmlns:th="http://www.thymeleaf.org">
                  event.preventDefault();
                  axios(
                      {
-                         header: {
+                         headers: {
                              'Content-Type': 'application/json',
                              'token': localStorage.getItem("token")
                          },
@@ -203,6 +352,61 @@ xmlns:th="http://www.thymeleaf.org">
                      }).then(function (response) {
                          console.log(response.data);
                          //画右边站点信息界面
+                         //清除原有界面
+                         $('.right').empty();
+                         var rightpage = $('<div class="stationinfopage"></div>')
+                        $('.right').append(rightpage);
+                         //为stationinfopage添加span
+                        var infos = new Array();
+                        infos.push('站点ID:'+response.data.rtnMap.stations[0].hydrometricStationId);
+                        infos.push('河流名:'+response.data.rtnMap.stations[0].riverName);
+                        infos.push('站点名:'+response.data.rtnMap.stations[0].hydrometricStationName);
+                     infos.push('所属国:'+response.data.rtnMap.stations[0].countryName);
+                     infos.push('面积:'+response.data.rtnMap.stations[0].stationArea);
+                     infos.push('经度:'+response.data.rtnMap.stations[0].latitude);
+                     infos.push('维度:'+response.data.rtnMap.stations[0].longitude);
+                     infos.push('海拔高度:'+response.data.rtnMap.stations[0].altitude);
+                     infos.push('来源:'+response.data.rtnMap.stations[0].ownerOfOriginalData);
+                     infos.push('起始年:'+response.data.rtnMap.stations[0].startYear);
+                     infos.push('结束年:'+response.data.rtnMap.stations[0].endYear);
+                     infos.push('数据类型:'+response.data.rtnMap.stations[0].dataType);
+                     for(var i=0;i<infos.length;i++)
+                     {
+                         var spannode = $('<span></span>');
+                         spannode.text(infos.at(i));
+                         console.log(spannode);
+                         $('.stationinfopage').append(spannode);
+                     }
+                     //添加查看数据链接
+                     var stationtablepage = $('<a href="">查看数据</a>')
+                     stationtablepage.on('click',function (event)
+                     {
+                         event.preventDefault();
+                         axios(
+                             {
+                                 headers:{
+                                     'Content-Type': 'application/json',
+                                     'token': localStorage.getItem("token")
+                                 },
+                                 method:'POST',
+                                 url:'/A502database/station/'+
+                                     response.data.rtnMap.stations[0].dataType+
+                                     '/'+response.data.rtnMap.stations[0].hydrometricStationId+'/1'
+                             }
+
+                         ).then(function (response)
+                         {
+                             drawtable(response);
+                         })
+                     })
+                     $('.stationinfopage').append(stationtablepage);
+                     //添加获取原数据链接
+                    var download = $('<a>下载源文件</a>');
+                    download.attr('href',location.href+'download/'
+                        +response.data.rtnMap.stations[0].dataType+'/'+response.data.rtnMap.stations[0].hydrometricStationId);
+                     $('.stationinfopage').append(download);
+                     //为下载按钮添加功能
+                     //因为是a标签，只用写入url即可
                  })
              })
                 })

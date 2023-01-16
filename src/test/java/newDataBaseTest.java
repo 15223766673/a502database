@@ -1,9 +1,7 @@
+import com.pojo.MonthStationData;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,14 +10,13 @@ import java.util.LinkedList;
 
 public class newDataBaseTest {
     @Test
-    public void test()
-    {
+    public void test() throws IOException, ParseException {
 
 
 
 
                 int fileNum = 0, folderNum = 0;
-                File file = new File("D:\\QQ文档\\761702168\\FileRecv\\全球径流数据集\\GRDC数据集");
+                File file = new File("D:\\QQ文档\\761702168\\FileRecv\\全球径流数据集\\test");
                 LinkedList<File> list = new LinkedList<>();
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 if (file.exists()) {
@@ -40,6 +37,27 @@ public class newDataBaseTest {
                             } else {
                                 System.out.println("文件:" + f.getAbsolutePath());
                                 fileNum++;
+                                File file2 = new File(f.getAbsolutePath());
+                                FileReader fr = new FileReader(file2);
+                                BufferedReader br = new BufferedReader(fr);
+                                String line;
+                                int num=0;
+                                while ((line = br.readLine())!=null)
+                                {
+                                    num++;
+                                    MonthStationData monthStationData = new MonthStationData();
+                                    if(num>39)
+                                    {
+                                        System.out.println("第"+num+"行:"+line);
+                                        monthStationData.setMonthDate(line.substring(0,10));
+                                        monthStationData.setOriginal(line.substring(17,28));
+                                        monthStationData.setCalculated(line.substring(29,40));
+                                        monthStationData.setFlag(line.substring(41));
+                                        System.out.println(monthStationData);
+                                    }
+
+
+                                }
                             }
                         }
                     }

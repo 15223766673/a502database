@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface StationMapper {
     List<Station> queryStationByMonthInfo(String info);
+    List<Station> queryStationByDayInfo(String info);
 }
