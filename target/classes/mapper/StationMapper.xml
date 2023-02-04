@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--保证命名空间与全类名一致-->
+<mapper namespace="com.mapper.StationMapper">
+    <select id="queryStationByMonthInfo" resultType="Station">
+        select * from grdc_month_station s where CONCAT(s.hydrometric_station_id,s.river_name,s.hydrometric_station_name,s.latitude,s.longitude)
+        LIKE #{info} LIMIT 10
+    </select>
+    <select id="queryStationByDayInfo" resultType="Station">
+        select * from grdc_day_station s where CONCAT(s.hydrometric_station_id,s.river_name,s.hydrometric_station_name,s.latitude,s.longitude)
+        LIKE #{info} LIMIT 10
+    </select>
+
+</mapper>
